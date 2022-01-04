@@ -11,17 +11,22 @@ const Container = styled.div`
 
 const InputGroup = styled.div`
   width: 100%;
-  display: flex;
   justify-content: space-between;
-  margin: 0 auto 2rem;
+  margin: 0 auto 1rem;
   max-width: 900px;
 
   label {
     display: flex;
+    margin-bottom: 1rem;
 
     span {
       margin-right: 6px;
     }
+  }
+
+  @media (min-width: 750px) {
+    display: flex;
+    margin: 0 auto 2rem;
   }
 `;
 
@@ -31,12 +36,19 @@ const YearContainer = styled.div`
 `;
 
 const Week = styled.div`
-  width: 10px;
-  height: 10px;
-  border-radius: 50%;
-  border: 2px solid #000;
+  width: 4px;
+  height: 4px;
   margin: 2px;
+  border-radius: 50%;
+  border: 1px solid #000;
   background-color: ${(props) => (props.$fill ? "#000" : "#fff")};
+
+  @media (min-width: 750px) {
+    width: 10px;
+    height: 10px;
+    margin: 2px;
+    border-width: 2px;
+  }
 `;
 
 const initialLifeExpentancy = "80";
