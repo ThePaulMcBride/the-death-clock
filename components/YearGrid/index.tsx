@@ -3,23 +3,38 @@ import styled from "styled-components";
 import DatePicker from "react-datepicker";
 import "react-datepicker/dist/react-datepicker.css";
 
-const Container = styled.div``;
+const Container = styled.div`
+  .react-datepicker-wrapper {
+    width: auto;
+  }
+`;
 
 const InputGroup = styled.div`
   width: 100%;
   display: flex;
   justify-content: space-between;
+  margin: 0 auto 2rem;
+  max-width: 900px;
+
+  label {
+    display: flex;
+
+    span {
+      margin-right: 6px;
+    }
+  }
 `;
 
 const YearContainer = styled.div`
   display: flex;
+  justify-content: center;
 `;
 
 const Week = styled.div`
-  width: 5px;
-  height: 5px;
+  width: 10px;
+  height: 10px;
   border-radius: 50%;
-  border: 1px solid #000;
+  border: 2px solid #000;
   margin: 2px;
   background-color: ${(props) => (props.$fill ? "#000" : "#fff")};
 `;
@@ -73,7 +88,7 @@ export default function YearGrid() {
     <Container>
       <InputGroup>
         <label>
-          Life Expectancy: ({lifeExpectancy} years)
+          <span>Life Expectancy: ({lifeExpectancy} years)</span>
           <input
             type="range"
             value={lifeExpectancy}
@@ -82,7 +97,7 @@ export default function YearGrid() {
         </label>
 
         <label>
-          Date of birth:
+          <span>Date of birth:</span>
           <DatePicker
             selected={dateOfBirth}
             onChange={(date) => setDateOfBirth(date)}
@@ -90,6 +105,7 @@ export default function YearGrid() {
             showMonthDropdown
             showYearDropdown
             dropdownMode="select"
+            dateFormat="dd/MMM/yyyy"
           />
         </label>
       </InputGroup>
