@@ -24,7 +24,7 @@ const Week = styled.div`
   background-color: ${(props) => (props.fill ? "#000" : "#fff")};
 `;
 
-const initialLifeExpentancy = 80;
+const initialLifeExpentancy = "80";
 const age = 30;
 
 function diffInWeeks(dt2, dt1) {
@@ -34,7 +34,12 @@ function diffInWeeks(dt2, dt1) {
   return Math.abs(Math.round(diff));
 }
 
-const Year = memo(function Year(props) {
+interface YearProps {
+  fill: boolean;
+  weeks: number;
+}
+
+const Year = memo(function Year(props: YearProps) {
   const weekCount = Array.from({ length: 52 }, (_el, index) => index + 1);
 
   return (
@@ -48,15 +53,19 @@ const Year = memo(function Year(props) {
 
 export default function YearGrid() {
   const [lifeExpectancy, setLifeExpectancy] = useState(initialLifeExpentancy);
-  const [dateOfBirth, setDateOfBirth] = useState(
-    () => new Date(new Date().getTime() - 30 * 24 * 60 * 60 * 1000 * 365)
-  );
+  const [dateOfBirth, setDateOfBirth] = useState(() => {
+    const currentDate = new Date();
+    const currentYear = currentDate.getFullYear();
+    return new Date(new Date().setFullYear(currentYear - 30));
+  });
+
+  console.log(dateOfBirth);
 
   const currentDate = new Date();
 
   const weeksOld = diffInWeeks(currentDate, dateOfBirth);
   const years = Array.from(
-    { length: lifeExpectancy },
+    { length: parseInt(lifeExpectancy) },
     (_el, index) => index + 1
   );
   const yearsOld = Math.floor(weeksOld / 52);
