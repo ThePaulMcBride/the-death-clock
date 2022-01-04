@@ -1,6 +1,5 @@
-import { useState, memo } from "react";
 import styled from "styled-components";
-import DatePicker from "react-datepicker";
+import { motion } from "framer-motion";
 import "react-datepicker/dist/react-datepicker.css";
 
 const Container = styled.div`
@@ -9,28 +8,7 @@ const Container = styled.div`
   }
 `;
 
-const InputGroup = styled.div`
-  width: 100%;
-  justify-content: space-between;
-  margin: 0 auto 1rem;
-  max-width: 900px;
-
-  label {
-    display: flex;
-    margin-bottom: 1rem;
-
-    span {
-      margin-right: 6px;
-    }
-  }
-
-  @media (min-width: 950px) {
-    display: flex;
-    margin: 0 auto 2rem;
-  }
-`;
-
-const Week = styled.div`
+const Week = styled(motion.div)`
   width: 4px;
   height: 4px;
   border-radius: 50%;
@@ -48,10 +26,11 @@ const Week = styled.div`
   }
 `;
 
-const Grid = styled.div`
+const Grid = styled(motion.div)`
   display: grid;
   grid-template-columns: repeat(52, 1fr);
   gap: 2px;
+  margin-bottom: 2rem;
 
   @media (min-width: 650px) {
     gap: 4px;
@@ -63,10 +42,14 @@ const Grid = styled.div`
 
   ${Week}:nth-child(-n+${(props) => props.limit}) {
     background-color: black;
+    transition: all 0.5s ease-in;
   }
-`;
 
-const initialLifeExpentancy = 80;
+  /* ${Week}:nth-child(${(props) => props.limit}) {
+    border-color: red;
+    transition: all 0.5s ease-in;
+  } */
+`;
 
 function diffInWeeks(dt2, dt1) {
   if (!dt2 || !dt1) return 0;
@@ -75,51 +58,51 @@ function diffInWeeks(dt2, dt1) {
   return Math.abs(Math.round(diff));
 }
 
-export default function YearGrid() {
-  const [lifeExpectancy, setLifeExpectancy] = useState(initialLifeExpentancy);
-  const [dateOfBirth, setDateOfBirth] = useState(() => {
-    const currentDate = new Date();
-    const currentYear = currentDate.getFullYear();
-    return new Date(new Date().setFullYear(currentYear - 30));
-  });
+interface Props {
+  lifeExpectancy: number;
+  dateOfBirth: string;
+  editData: () => void;
+}
+
+const container = {
+  hidden: { opacity: 1 },
+  visible: {
+    opacity: 1,
+    transition: {
+      delayChildren: 0.3,
+      staggerChildren: 0.005,
+    },
+  },
+};
+
+const item = {
+  hidden: { backgroundColor: "transparent" },
+  visible: {
+    backgroundColor: "black",
+  },
+};
+
+export default function YearGrid(props: Props) {
+  const { lifeExpectancy, dateOfBirth } = props;
 
   const currentDate = new Date();
 
-  const weeksOld = diffInWeeks(currentDate, dateOfBirth);
-  const months = lifeExpectancy * 12;
+  const weeksOld = diffInWeeks(currentDate, new Date(dateOfBirth));
   const weeks = lifeExpectancy * 52;
 
   return (
     <Container>
-      <InputGroup>
-        <label>
-          <span>Life Expectancy: ({lifeExpectancy} years)</span>
-          <input
-            type="range"
-            value={lifeExpectancy}
-            onChange={(e) => setLifeExpectancy(parseInt(e.target.value))}
-          />
-        </label>
-
-        <label>
-          <span>Date of birth:</span>
-          <DatePicker
-            selected={dateOfBirth}
-            onChange={(date) => setDateOfBirth(date)}
-            peekNextMonth
-            showMonthDropdown
-            showYearDropdown
-            dropdownMode="select"
-            dateFormat="dd/MMM/yyyy"
-          />
-        </label>
-      </InputGroup>
-
-      <Grid limit={weeksOld}>
+      <Grid
+        limit={weeksOld}
+        variants={container}
+        initial="hidden"
+        animate="visible"
+      >
         {Array.from({ length: weeks }, (_, index) => (
-          <Week key={index} />
+          <Week key={index} variants={index < weeksOld ? item : {}} />
         ))}
       </Grid>
+      <button onClick={props.editData}>Edit data</button>
     </Container>
   );
 }
