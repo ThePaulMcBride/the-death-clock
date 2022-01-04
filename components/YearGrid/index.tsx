@@ -34,13 +34,13 @@ function diffInWeeks(dt2, dt1) {
   return Math.abs(Math.round(diff));
 }
 
-const Year = memo(function Year({ fill, weeks }) {
+const Year = memo(function Year(props) {
   const weekCount = Array.from({ length: 52 }, (_el, index) => index + 1);
 
   return (
     <YearContainer>
       {weekCount.map((week, index) => (
-        <Week key={index} fill={fill || week <= weeks}></Week>
+        <Week key={index} fill={props.fill || week <= props.weeks}></Week>
       ))}
     </YearContainer>
   );
