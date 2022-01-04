@@ -21,7 +21,7 @@ const Week = styled.div`
   border-radius: 50%;
   border: 1px solid #000;
   margin: 2px;
-  background-color: ${(props) => (props.fill ? "#000" : "#fff")};
+  background-color: ${(props) => (props.$fill ? "#000" : "#fff")};
 `;
 
 const initialLifeExpentancy = "80";
@@ -45,7 +45,7 @@ const Year = memo(function Year(props: YearProps) {
   return (
     <YearContainer>
       {weekCount.map((week, index) => (
-        <Week key={index} fill={props.fill || week <= props.weeks}></Week>
+        <Week key={index} $fill={props.fill || week <= props.weeks}></Week>
       ))}
     </YearContainer>
   );
@@ -59,8 +59,6 @@ export default function YearGrid() {
     return new Date(new Date().setFullYear(currentYear - 30));
   });
 
-  console.log(dateOfBirth);
-
   const currentDate = new Date();
 
   const weeksOld = diffInWeeks(currentDate, dateOfBirth);
@@ -70,8 +68,6 @@ export default function YearGrid() {
   );
   const yearsOld = Math.floor(weeksOld / 52);
   const weeksLeft = weeksOld % 52;
-
-  console.log(yearsOld, weeksLeft);
 
   return (
     <Container>
