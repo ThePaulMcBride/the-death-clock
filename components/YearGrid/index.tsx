@@ -24,35 +24,49 @@ const InputGroup = styled.div`
     }
   }
 
-  @media (min-width: 750px) {
+  @media (min-width: 950px) {
     display: flex;
     margin: 0 auto 2rem;
   }
 `;
 
-const YearContainer = styled.div`
-  display: flex;
-  justify-content: center;
-`;
-
 const Week = styled.div`
   width: 4px;
   height: 4px;
-  margin: 2px;
   border-radius: 50%;
   border: 1px solid #000;
-  background-color: ${(props) => (props.$fill ? "#000" : "#fff")};
 
-  @media (min-width: 750px) {
+  @media (min-width: 650px) {
+    width: 6px;
+    height: 6px;
+  }
+
+  @media (min-width: 950px) {
     width: 10px;
     height: 10px;
-    margin: 2px;
     border-width: 2px;
   }
 `;
 
-const initialLifeExpentancy = "80";
-const age = 30;
+const Grid = styled.div`
+  display: grid;
+  grid-template-columns: repeat(52, 1fr);
+  gap: 2px;
+
+  @media (min-width: 650px) {
+    gap: 4px;
+  }
+
+  @media (min-width: 950px) {
+    gap: 6px;
+  }
+
+  ${Week}:nth-child(-n+${(props) => props.limit}) {
+    background-color: black;
+  }
+`;
+
+const initialLifeExpentancy = 80;
 
 function diffInWeeks(dt2, dt1) {
   if (!dt2 || !dt1) return 0;
@@ -60,23 +74,6 @@ function diffInWeeks(dt2, dt1) {
   diff /= 60 * 60 * 24 * 7;
   return Math.abs(Math.round(diff));
 }
-
-interface YearProps {
-  fill: boolean;
-  weeks: number;
-}
-
-const Year = memo(function Year(props: YearProps) {
-  const weekCount = Array.from({ length: 52 }, (_el, index) => index + 1);
-
-  return (
-    <YearContainer>
-      {weekCount.map((week, index) => (
-        <Week key={index} $fill={props.fill || week <= props.weeks}></Week>
-      ))}
-    </YearContainer>
-  );
-});
 
 export default function YearGrid() {
   const [lifeExpectancy, setLifeExpectancy] = useState(initialLifeExpentancy);
@@ -89,12 +86,8 @@ export default function YearGrid() {
   const currentDate = new Date();
 
   const weeksOld = diffInWeeks(currentDate, dateOfBirth);
-  const years = Array.from(
-    { length: parseInt(lifeExpectancy) },
-    (_el, index) => index + 1
-  );
-  const yearsOld = Math.floor(weeksOld / 52);
-  const weeksLeft = weeksOld % 52;
+  const months = lifeExpectancy * 12;
+  const weeks = lifeExpectancy * 52;
 
   return (
     <Container>
@@ -104,7 +97,7 @@ export default function YearGrid() {
           <input
             type="range"
             value={lifeExpectancy}
-            onChange={(e) => setLifeExpectancy(e.target.value)}
+            onChange={(e) => setLifeExpectancy(parseInt(e.target.value))}
           />
         </label>
 
@@ -122,12 +115,11 @@ export default function YearGrid() {
         </label>
       </InputGroup>
 
-      {years.map((year, index) => {
-        const fill = yearsOld > year ? true : false;
-        const weeks = yearsOld === year ? weeksLeft : 0;
-
-        return <Year key={index} fill={fill} weeks={weeks} />;
-      })}
+      <Grid limit={weeksOld}>
+        {Array.from({ length: weeks }, (_, index) => (
+          <Week key={index} />
+        ))}
+      </Grid>
     </Container>
   );
 }
