@@ -48,6 +48,11 @@ export default class MyDocument extends Document {
           <meta key="og:type" property="og:type" content="website" />
           <meta
             key="og:description"
+            property="og:title"
+            content="Death Clock"
+          />
+          <meta
+            key="og:description"
             property="og:description"
             content="Life is short"
           />
