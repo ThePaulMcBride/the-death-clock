@@ -48,10 +48,10 @@ export default function Home() {
         <link rel="icon" href="/favicon.ico" />
       </Head>
 
-      {view === "form" ? (
-        <Main>
-          <Logo src="logo.svg" />
+      <Main key="form">
+        <Logo src="logo.svg" />
 
+        {view === "form" ? (
           <InputForm
             lifeExpectancy={lifeExpectancy}
             setLifeExpectancy={setLifeExpectancy}
@@ -59,20 +59,16 @@ export default function Home() {
             setDateOfBirth={setDateOfBirth}
             viewGrid={() => setView("grid")}
           />
-        </Main>
-      ) : null}
+        ) : null}
 
-      {view === "grid" ? (
-        <Main>
-          <Logo src="logo.svg" />
-
+        {view === "grid" ? (
           <YearGrid
             lifeExpectancy={lifeExpectancy}
             dateOfBirth={dateOfBirth}
             editData={() => setView("form")}
           />
-        </Main>
-      ) : null}
+        ) : null}
+      </Main>
 
       <footer className={styles.footer}>
         <a

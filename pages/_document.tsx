@@ -32,6 +32,11 @@ export default class MyDocument extends Document {
     return (
       <Html>
         <Head>
+          <script
+            defer
+            data-domain="thedeathclock.co"
+            src="https://plausible.io/js/plausible.js"
+          ></script>
           <link
             href="https://fonts.googleapis.com/css2?family=Roboto&family=Roboto+Condensed&display=optional"
             rel="stylesheet"

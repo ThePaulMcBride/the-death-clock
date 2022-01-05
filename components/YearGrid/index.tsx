@@ -136,7 +136,7 @@ export default function YearGrid(props: Props) {
             {Array.from(
               { length: Math.ceil((lifeExpectancy + 1) / 10) },
               (_, index) => (
-                <span>{index === 0 ? 1 : index * 10}</span>
+                <span key={index}>{index === 0 ? 1 : index * 10}</span>
               )
             )}
           </NumberContainer>
