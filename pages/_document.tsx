@@ -36,6 +36,38 @@ export default class MyDocument extends Document {
             href="https://fonts.googleapis.com/css2?family=Roboto&family=Roboto+Condensed&display=optional"
             rel="stylesheet"
           />
+          <meta
+            property="og:logo"
+            content={`https://thedeathclock.co/deathclock-cover.png`}
+          />
+          <meta key="og:type" property="og:type" content="website" />
+          <meta
+            key="og:description"
+            property="og:description"
+            content="Life is short"
+          />
+          <meta
+            key="og:image"
+            property="og:image"
+            content={`https://thedeathclock.co/deathclock-cover.png`}
+          />
+          <meta key="og:image:width" property="og:image:width" content="1200" />
+          <meta key="og:image:width" property="og:image:height" content="627" />
+          <meta
+            key="twitter:card"
+            name="twitter:card"
+            content="summary_large_image"
+          />
+          <meta
+            key="twitter:creator"
+            name="twitter:creator"
+            content="@ThePaulMcBride"
+          />
+          <meta
+            key="twitter:image"
+            name="twitter:image"
+            content={`https://thedeathclock.co/deathclock-cover.png`}
+          />
         </Head>
         <body>
           <Main />
