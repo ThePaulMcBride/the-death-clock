@@ -42,13 +42,32 @@ const Grid = styled(motion.div)`
 
   ${Week}:nth-child(-n+${(props) => props.limit}) {
     background-color: black;
-    transition: all 0.5s ease-in;
+    transition: background-color 0.5s ease-in;
   }
 
   /* ${Week}:nth-child(${(props) => props.limit}) {
     border-color: red;
     transition: all 0.5s ease-in;
   } */
+`;
+
+const SettingsButton = styled.button`
+  outline: none;
+  border: none;
+  background-color: transparent;
+  padding: 0;
+  display: flex;
+  align-items: center;
+  cursor: pointer;
+  position: absolute;
+  top: 1rem;
+  right: 1rem;
+
+  svg {
+    color: #333333;
+    width: 20px;
+    margin-right: 5px;
+  }
 `;
 
 function diffInWeeks(dt2, dt1) {
@@ -102,7 +121,22 @@ export default function YearGrid(props: Props) {
           <Week key={index} variants={index < weeksOld ? item : {}} />
         ))}
       </Grid>
-      <button onClick={props.editData}>Edit data</button>
+
+      <SettingsButton onClick={props.editData}>
+        <svg
+          xmlns="http://www.w3.org/2000/svg"
+          className="h-5 w-5"
+          viewBox="0 0 20 20"
+          fill="currentColor"
+        >
+          <path
+            fillRule="evenodd"
+            d="M11.49 3.17c-.38-1.56-2.6-1.56-2.98 0a1.532 1.532 0 01-2.286.948c-1.372-.836-2.942.734-2.106 2.106.54.886.061 2.042-.947 2.287-1.561.379-1.561 2.6 0 2.978a1.532 1.532 0 01.947 2.287c-.836 1.372.734 2.942 2.106 2.106a1.532 1.532 0 012.287.947c.379 1.561 2.6 1.561 2.978 0a1.533 1.533 0 012.287-.947c1.372.836 2.942-.734 2.106-2.106a1.533 1.533 0 01.947-2.287c1.561-.379 1.561-2.6 0-2.978a1.532 1.532 0 01-.947-2.287c.836-1.372-.734-2.942-2.106-2.106a1.532 1.532 0 01-2.287-.947zM10 13a3 3 0 100-6 3 3 0 000 6z"
+            clipRule="evenodd"
+          />
+        </svg>
+        Settings
+      </SettingsButton>
     </Container>
   );
 }
