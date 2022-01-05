@@ -13,7 +13,7 @@ const InputGroup = styled.div`
   justify-content: space-between;
   margin: 0 auto 1rem;
   max-width: 900px;
-  background-color: #eee;
+  background-color: #222222;
   padding: 2rem;
 
   label {
@@ -65,6 +65,7 @@ export default function InputForm(props: Props) {
             showYearDropdown
             dropdownMode="select"
             dateFormat="dd/MMM/yyyy"
+            // inline
           />
         </label>
         <button onClick={viewGrid}>Next</button>

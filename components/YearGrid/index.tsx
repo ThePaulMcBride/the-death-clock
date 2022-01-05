@@ -3,16 +3,33 @@ import { motion } from "framer-motion";
 import "react-datepicker/dist/react-datepicker.css";
 
 const Container = styled.div`
+  transform: translateX(-2rem);
+
   .react-datepicker-wrapper {
     width: auto;
   }
+`;
+
+const GridContainer = styled.div`
+  display: flex;
+  margin-bottom: 2rem;
+`;
+
+const NumberContainer = styled.div`
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+  margin-right: 2rem;
+  font-size: 1.5rem;
+  text-align: right;
+  width: 2rem;
 `;
 
 const Week = styled(motion.div)`
   width: 4px;
   height: 4px;
   border-radius: 50%;
-  border: 1px solid #000;
+  background-color: #ffffff;
 
   @media (min-width: 650px) {
     width: 6px;
@@ -20,28 +37,27 @@ const Week = styled(motion.div)`
   }
 
   @media (min-width: 950px) {
-    width: 10px;
-    height: 10px;
-    border-width: 2px;
+    width: 8px;
+    height: 8px;
   }
 `;
 
 const Grid = styled(motion.div)`
+  padding: 1rem 0;
   display: grid;
   grid-template-columns: repeat(52, 1fr);
   gap: 2px;
-  margin-bottom: 2rem;
 
   @media (min-width: 650px) {
     gap: 4px;
   }
 
   @media (min-width: 950px) {
-    gap: 6px;
+    gap: 8px;
   }
 
   ${Week}:nth-child(-n+${(props) => props.limit}) {
-    background-color: black;
+    /* background-color: black; */
     transition: background-color 0.5s ease-in;
   }
 
@@ -62,9 +78,10 @@ const SettingsButton = styled.button`
   position: absolute;
   top: 1rem;
   right: 1rem;
+  color: #fff;
 
   svg {
-    color: #333333;
+    color: #fff;
     width: 20px;
     margin-right: 5px;
   }
@@ -95,9 +112,9 @@ const container = {
 };
 
 const item = {
-  hidden: { backgroundColor: "transparent" },
+  hidden: { scale: 1 },
   visible: {
-    backgroundColor: "black",
+    scale: 0.5,
   },
 };
 
@@ -110,18 +127,30 @@ export default function YearGrid(props: Props) {
   const weeks = lifeExpectancy * 52;
 
   return (
-    <Container>
-      <Grid
-        limit={weeksOld}
-        variants={container}
-        initial="hidden"
-        animate="visible"
-      >
-        {Array.from({ length: weeks }, (_, index) => (
-          <Week key={index} variants={index < weeksOld ? item : {}} />
-        ))}
-      </Grid>
+    <>
+      <Container>
+        <GridContainer>
+          <NumberContainer>
+            {Array.from(
+              { length: Math.ceil((lifeExpectancy + 1) / 10) },
+              (_, index) => (
+                <span>{index === 0 ? 1 : index * 10}</span>
+              )
+            )}
+          </NumberContainer>
 
+          <Grid
+            limit={weeksOld}
+            variants={container}
+            initial="hidden"
+            animate="visible"
+          >
+            {Array.from({ length: weeks }, (_, index) => (
+              <Week key={index} variants={index < weeksOld ? item : {}} />
+            ))}
+          </Grid>
+        </GridContainer>
+      </Container>
       <SettingsButton onClick={props.editData}>
         <svg
           xmlns="http://www.w3.org/2000/svg"
@@ -137,6 +166,6 @@ export default function YearGrid(props: Props) {
         </svg>
         Settings
       </SettingsButton>
-    </Container>
+    </>
   );
 }

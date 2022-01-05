@@ -17,6 +17,11 @@ const Main = styled.main`
   align-items: center;
 `;
 
+const Logo = styled.img`
+  margin-bottom: 2rem;
+  display: block;
+`;
+
 const initialLifeExpentancy = 80;
 const initialDob = (() => {
   const currentDate = new Date();
@@ -45,7 +50,8 @@ export default function Home() {
 
       {view === "form" ? (
         <Main>
-          <h1 className={styles.title}>Death Clock ☠️</h1>
+          <Logo src="logo.svg" />
+
           <InputForm
             lifeExpectancy={lifeExpectancy}
             setLifeExpectancy={setLifeExpectancy}
@@ -58,7 +64,7 @@ export default function Home() {
 
       {view === "grid" ? (
         <Main>
-          <h1 className={styles.title}>Death Clock ☠️</h1>
+          <Logo src="logo.svg" />
 
           <YearGrid
             lifeExpectancy={lifeExpectancy}
@@ -74,7 +80,7 @@ export default function Home() {
           target="_blank"
           rel="noopener noreferrer"
         >
-          Built by Paul McBride
+          <span>A stoic reminder by</span> Paul McBride
         </a>
       </footer>
     </div>
