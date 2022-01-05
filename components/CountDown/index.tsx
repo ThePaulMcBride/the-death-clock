@@ -52,7 +52,7 @@ export default function CountDown(props: Props) {
   const [lifeRemaining, setLifeRemaining] = useState("");
 
   useEffect(() => {
-    const interval = setInterval(() => {
+    function calculateAndsetLifeRemaining() {
       const dateOfBirth = new Date(props.dateOfBirth);
       const currentDate = new Date();
       const dateOfDeath = add(dateOfBirth, { years: props.lifeExpectancy });
@@ -62,6 +62,12 @@ export default function CountDown(props: Props) {
       const percentage = (lifeUsed / totalLife) * 100;
       const remainingLife = 100 - percentage;
       setLifeRemaining(remainingLife.toFixed(8));
+    }
+
+    calculateAndsetLifeRemaining();
+
+    const interval = setInterval(() => {
+      calculateAndsetLifeRemaining();
     }, 1000);
 
     return () => clearInterval(interval);
