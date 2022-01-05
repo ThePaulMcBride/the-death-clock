@@ -1,3 +1,4 @@
+import { useState, useEffect } from "react";
 import styled from "styled-components";
 import { motion } from "framer-motion";
 import "react-datepicker/dist/react-datepicker.css";
@@ -27,14 +28,14 @@ const NumberContainer = styled.div`
 `;
 
 const Week = styled(motion.div)`
-  width: 4px;
-  height: 4px;
+  width: 14px;
+  height: 14px;
   border-radius: 50%;
   background-color: #ffffff;
 
   @media (min-width: 650px) {
-    width: 6px;
-    height: 6px;
+    width: 18px;
+    height: 18px;
   }
 
   @media (min-width: 950px) {
@@ -46,11 +47,14 @@ const Week = styled(motion.div)`
 const Grid = styled(motion.div)`
   padding: 1rem 0;
   display: grid;
-  grid-template-columns: repeat(52, 1fr);
-  gap: 2px;
+  grid-template-columns: repeat(
+    ${(props) => (props.layout === "weeks" ? 52 : 12)},
+    1fr
+  );
+  gap: 6px;
 
   @media (min-width: 650px) {
-    gap: 4px;
+    gap: 12px;
   }
 
   @media (min-width: 950px) {
@@ -95,6 +99,13 @@ function diffInWeeks(dt2, dt1) {
   return Math.abs(Math.round(diff));
 }
 
+function diffInMonths(dt2, dt1) {
+  if (!dt2 || !dt1) return 0;
+  var diff = (dt2.getTime() - dt1.getTime()) / 1000;
+  diff /= 60 * 60 * 24 * 30;
+  return Math.abs(Math.round(diff));
+}
+
 const container = {
   hidden: { opacity: 1 },
   visible: {
@@ -120,39 +131,82 @@ interface Props {
 }
 
 export default function YearGrid(props: Props) {
+  const [layout, setLayout] = useState("none");
   const { lifeExpectancy, dateOfBirth } = props;
 
   const currentDate = new Date();
-
   const weeksOld = diffInWeeks(currentDate, new Date(dateOfBirth));
+  const monthsOld = diffInMonths(currentDate, new Date(dateOfBirth));
   const weeks = lifeExpectancy * 52;
+  const months = lifeExpectancy * 12;
+
+  useEffect(() => {
+    function handleResize(e) {
+      if (window.innerWidth > 950) {
+        setLayout("weeks");
+      } else {
+        setLayout("months");
+      }
+    }
+
+    if (window.innerWidth > 950) {
+      setLayout("weeks");
+    } else {
+      setLayout("months");
+    }
+
+    window.addEventListener("resize", handleResize);
+
+    return () => {
+      window.removeEventListener("resize", handleResize);
+    };
+  }, [setLayout]);
 
   return (
     <>
-      <CountDown lifeExpectancy={lifeExpectancy} dateOfBirth={dateOfBirth} />
-      <Container>
-        <GridContainer>
-          <NumberContainer>
-            {Array.from(
-              { length: Math.ceil((lifeExpectancy + 1) / 10) },
-              (_, index) => (
-                <span key={index}>{index === 0 ? 1 : index * 10}</span>
-              )
-            )}
-          </NumberContainer>
+      {layout !== "none" && (
+        <>
+          <CountDown
+            lifeExpectancy={lifeExpectancy}
+            dateOfBirth={dateOfBirth}
+          />
+          <Container>
+            <GridContainer>
+              <NumberContainer>
+                {Array.from(
+                  { length: Math.ceil((lifeExpectancy + 1) / 10) },
+                  (_, index) => (
+                    <span key={index}>{index === 0 ? 1 : index * 10}</span>
+                  )
+                )}
+              </NumberContainer>
 
-          <Grid
-            limit={weeksOld}
-            variants={container}
-            initial="hidden"
-            animate="visible"
-          >
-            {Array.from({ length: weeks }, (_, index) => (
-              <Week key={index} variants={index < weeksOld ? item : {}} />
-            ))}
-          </Grid>
-        </GridContainer>
-      </Container>
+              <Grid
+                variants={container}
+                initial="hidden"
+                animate="visible"
+                layout={layout}
+              >
+                {Array.from(
+                  { length: layout === "weeks" ? weeks : months },
+                  (_, index) => {
+                    const weekVariant = index < weeksOld ? item : {};
+                    const monthVariant = index < monthsOld ? item : {};
+                    return (
+                      <Week
+                        key={index}
+                        variants={
+                          layout === "weeks" ? weekVariant : monthVariant
+                        }
+                      />
+                    );
+                  }
+                )}
+              </Grid>
+            </GridContainer>
+          </Container>
+        </>
+      )}
       <SettingsButton onClick={props.editData}>
         <svg
           xmlns="http://www.w3.org/2000/svg"
