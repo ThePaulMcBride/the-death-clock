@@ -1,6 +1,7 @@
 import styled from "styled-components";
 import { motion } from "framer-motion";
 import "react-datepicker/dist/react-datepicker.css";
+import CountDown from "../CountDown";
 
 const Container = styled.div`
   transform: translateX(-2rem);
@@ -94,12 +95,6 @@ function diffInWeeks(dt2, dt1) {
   return Math.abs(Math.round(diff));
 }
 
-interface Props {
-  lifeExpectancy: number;
-  dateOfBirth: string;
-  editData: () => void;
-}
-
 const container = {
   hidden: { opacity: 1 },
   visible: {
@@ -118,6 +113,12 @@ const item = {
   },
 };
 
+interface Props {
+  lifeExpectancy: number;
+  dateOfBirth: string;
+  editData: () => void;
+}
+
 export default function YearGrid(props: Props) {
   const { lifeExpectancy, dateOfBirth } = props;
 
@@ -128,6 +129,7 @@ export default function YearGrid(props: Props) {
 
   return (
     <>
+      <CountDown lifeExpectancy={lifeExpectancy} dateOfBirth={dateOfBirth} />
       <Container>
         <GridContainer>
           <NumberContainer>
