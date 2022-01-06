@@ -177,7 +177,7 @@ export default function InputForm(props: Props) {
             {({ open }) => (
               <>
                 <Listbox.Label className="block">
-                  Where are you from
+                  Where are you from?
                 </Listbox.Label>
                 <div className="mt-1 relative">
                   <Listbox.Button className="listbox-button relative w-full rounded-md shadow-sm pl-3 pr-10 py-3 text-left cursor-default focus:outline-none focus:ring-1 focus:ring-yellow-500 focus:border-yellow-500 sm:text-sm">
