@@ -4,6 +4,7 @@ import styled from "styled-components";
 import styles from "../styles/Home.module.css";
 import YearGrid from "../components/YearGrid";
 import useLocalStorage from "@alexmarqs/react-use-local-storage";
+import Test from "./test";
 
 const InputForm = dynamic(() => import("../components/InputForm"), {
   ssr: false,

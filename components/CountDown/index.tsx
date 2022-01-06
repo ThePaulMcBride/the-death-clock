@@ -77,7 +77,7 @@ export default function CountDown(props: Props) {
     <Container>
       <LabelText>You have</LabelText>
       <Percentage>
-        <span>{lifeRemaining}%</span>
+        <span>{lifeRemaining || 100}%</span>
       </Percentage>
       <LabelText>of your expected lifespan remaining</LabelText>
     </Container>
