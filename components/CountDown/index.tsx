@@ -66,7 +66,7 @@ function calculateLifeRemaining(
 export default function CountDown(props: Props) {
   const sizeOfUpdateRef = useRef(0);
   const [animationState, setAnimationState] = useState("initial");
-  const [lifeRemaining, setLifeRemaining] = useState("100");
+  const [lifeRemaining, setLifeRemaining] = useState(() => (100).toFixed(8));
 
   useEffect(() => {
     const timeout = setTimeout(() => {
