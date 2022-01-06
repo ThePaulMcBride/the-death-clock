@@ -5,7 +5,11 @@ import "@reach/slider/styles.css";
 import "@amir04lm26/react-modern-calendar-date-picker/lib/DatePicker.css";
 import { Calendar } from "@amir04lm26/react-modern-calendar-date-picker";
 import { Listbox, Transition } from "@headlessui/react";
-import { CheckIcon, SelectorIcon } from "@heroicons/react/solid";
+import {
+  CheckIcon,
+  SelectorIcon,
+  ChevronRightIcon,
+} from "@heroicons/react/solid";
 import useLocalStorage from "@alexmarqs/react-use-local-storage";
 import countriesData from "../../data/life_expectancy.json";
 
@@ -113,6 +117,8 @@ const InputGroup = styled.div`
 
 const Button = styled.button`
   background-color: #ffe074;
+  display: flex;
+  justify-content: space-between;
 `;
 
 function classNames(...classes) {
@@ -258,6 +264,7 @@ export default function InputForm(props: Props) {
           onClick={viewGrid}
         >
           Proceed
+          <ChevronRightIcon className="w-6" />
         </Button>
       </InputGroup>
     </Container>
