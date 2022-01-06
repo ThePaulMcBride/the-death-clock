@@ -20,6 +20,7 @@ const Main = styled.main`
 const Logo = styled.img`
   margin-bottom: 2rem;
   display: block;
+  width: 330px;
 `;
 
 const initialLifeExpentancy = 80;

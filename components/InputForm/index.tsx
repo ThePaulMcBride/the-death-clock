@@ -6,8 +6,29 @@ import "@amir04lm26/react-modern-calendar-date-picker/lib/DatePicker.css";
 import { Calendar } from "@amir04lm26/react-modern-calendar-date-picker";
 import { Listbox, Transition } from "@headlessui/react";
 import { CheckIcon, SelectorIcon } from "@heroicons/react/solid";
+import useLocalStorage from "@alexmarqs/react-use-local-storage";
+import countriesData from "../../data/life_expectancy.json";
+
+const sortedCountries = Object.values(countriesData).sort((a, b) => {
+  if (a.country < b.country) return -1;
+  if (a.country > b.country) return 1;
+  return 0;
+});
 
 const Container = styled.div`
+  width: 330px;
+  max-width: 100%;
+
+  .selected {
+    background-color: #ffe074;
+  }
+
+  .listbox-button {
+    background-color: #0f0f0f;
+    color: white;
+    border: 1px solid #0f0f0f;
+  }
+
   .Calendar {
     background: #0f0f0f;
     --cl-color-disabled: rgba(255, 255, 255, 0.4);
@@ -66,7 +87,7 @@ const InputGroup = styled.div`
   justify-content: space-between;
   margin: 0 auto 1rem;
   max-width: 900px;
-  padding: 2rem;
+  padding: 2rem 0;
   font-size: 1.6rem;
 
   label {
@@ -90,22 +111,9 @@ const InputGroup = styled.div`
   }
 `;
 
-const countries = [
-  { id: "gb", name: "United Kingdom" },
-  { id: "us", name: "United States" },
-  { id: "ire", name: "Ireland" },
-  { id: "ja", name: "Jamaica" },
-  { id: "se", name: "Sweden" },
-];
-
-const lifeExpectancies = {
-  gb: 80,
-  us: 78,
-  ire: 100,
-  ja: 74,
-  se: 82,
-  default: 80,
-};
+const Button = styled.button`
+  background-color: #ffe074;
+`;
 
 function classNames(...classes) {
   return classes.filter(Boolean).join(" ");
@@ -141,12 +149,13 @@ export default function InputForm(props: Props) {
     day: parsedDateOfBirth.getDate(),
   };
 
-  const [selectedCountry, setSelectedCountry] = useState(countries[0]);
+  const [selectedCountry, setSelectedCountry] = useLocalStorage(
+    "country",
+    countriesData["United Kingdom of Great Britain and Northern Ireland"]
+  );
 
   useEffect(() => {
-    setLifeExpectancy(
-      lifeExpectancies[selectedCountry.id] || lifeExpectancies.default
-    );
+    setLifeExpectancy(selectedCountry.lifeExpectancy);
   }, [selectedCountry, setLifeExpectancy]);
 
   return (
@@ -177,9 +186,9 @@ export default function InputForm(props: Props) {
                   Where are you from
                 </Listbox.Label>
                 <div className="mt-1 relative">
-                  <Listbox.Button className="bg-white relative w-full border border-gray-300 rounded-md shadow-sm pl-3 pr-10 py-2 text-left cursor-default focus:outline-none focus:ring-1 focus:ring-indigo-500 focus:border-indigo-500 sm:text-sm">
-                    <span className="block truncate text-black">
-                      {selectedCountry.name}
+                  <Listbox.Button className="listbox-button relative w-full rounded-md shadow-sm pl-3 pr-10 py-3 text-left cursor-default focus:outline-none focus:ring-1 focus:ring-yellow-500 focus:border-yellow-500 sm:text-sm">
+                    <span className="block truncate">
+                      {selectedCountry.country}
                     </span>
                     <span className="absolute inset-y-0 right-0 flex items-center pr-2 pointer-events-none">
                       <SelectorIcon
@@ -197,18 +206,16 @@ export default function InputForm(props: Props) {
                     leaveTo="opacity-0"
                   >
                     <Listbox.Options className="absolute z-10 mt-1 w-full bg-white shadow-lg max-h-60 rounded-md py-1 text-base ring-1 ring-black ring-opacity-5 overflow-auto focus:outline-none sm:text-sm">
-                      {countries.map((person) => (
+                      {sortedCountries.map((country) => (
                         <Listbox.Option
-                          key={person.id}
+                          key={country.country}
                           className={({ active }) =>
                             classNames(
-                              active
-                                ? "text-white bg-indigo-600"
-                                : "text-gray-900",
+                              active ? "text-black selected" : "text-gray-900",
                               "cursor-default select-none relative py-2 pl-3 pr-9"
                             )
                           }
-                          value={person}
+                          value={country}
                         >
                           {({ selected, active }) => (
                             <>
@@ -218,7 +225,7 @@ export default function InputForm(props: Props) {
                                   "block truncate"
                                 )}
                               >
-                                {person.name}
+                                {country.country}
                               </span>
 
                               {selected ? (
@@ -246,12 +253,12 @@ export default function InputForm(props: Props) {
           </Listbox>
         </label>
 
-        <button
-          className="inline-flex items-center px-3 py-2 border border-transparent text-sm leading-4 font-medium rounded-md shadow-sm text-white bg-indigo-600 hover:bg-indigo-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500"
+        <Button
+          className="inline-flex items-center px-4 py-3 border border-transparent text-lg leading-4 font-medium rounded-md shadow-sm focus:outline-none focus:ring-2 focus:ring-offset-2 text-black focus:ring-yellow-500 w-full mt-8"
           onClick={viewGrid}
         >
           Proceed
-        </button>
+        </Button>
       </InputGroup>
     </Container>
   );
