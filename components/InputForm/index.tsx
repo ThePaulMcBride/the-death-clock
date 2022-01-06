@@ -1,7 +1,5 @@
 import { Fragment, useState, useEffect } from "react";
 import styled from "styled-components";
-import { Slider } from "@reach/slider";
-import "@reach/slider/styles.css";
 import "@amir04lm26/react-modern-calendar-date-picker/lib/DatePicker.css";
 import { Calendar } from "@amir04lm26/react-modern-calendar-date-picker";
 import { Listbox, Transition } from "@headlessui/react";
@@ -102,16 +100,6 @@ const InputGroup = styled.div`
     span {
       margin-right: 6px;
     }
-  }
-
-  [data-reach-slider-input] {
-    width: 100%;
-    margin-top: 1rem;
-  }
-
-  [data-reach-slider-range],
-  [data-reach-slider-handle] {
-    background-color: #ffe074 !important;
   }
 `;
 
