@@ -1,6 +1,7 @@
-import { useState, useEffect } from "react";
+import { useState, useEffect, useRef } from "react";
 import { add, differenceInSeconds } from "date-fns";
 import styled from "styled-components";
+import { useAnimationFrame } from "framer-motion";
 
 const Container = styled.div`
   text-align: center;
@@ -48,30 +49,78 @@ interface Props {
   dateOfBirth: string;
 }
 
+function calculateLifeRemaining(
+  inputDateOfBirth: string,
+  lifeExpectancy: number
+) {
+  const dateOfBirth = new Date(inputDateOfBirth);
+  const currentDate = new Date();
+  const dateOfDeath = add(dateOfBirth, { years: lifeExpectancy });
+
+  const lifeUsed = differenceInSeconds(currentDate, dateOfBirth);
+  const totalLife = differenceInSeconds(dateOfDeath, dateOfBirth);
+  const percentage = (lifeUsed / totalLife) * 100;
+  return (100 - percentage).toFixed(8);
+}
+
 export default function CountDown(props: Props) {
-  const [lifeRemaining, setLifeRemaining] = useState("");
+  const sizeOfUpdateRef = useRef(0);
+  const [animationState, setAnimationState] = useState("initial");
+  const [lifeRemaining, setLifeRemaining] = useState("100");
 
   useEffect(() => {
-    function calculateAndsetLifeRemaining() {
-      const dateOfBirth = new Date(props.dateOfBirth);
-      const currentDate = new Date();
-      const dateOfDeath = add(dateOfBirth, { years: props.lifeExpectancy });
+    const timeout = setTimeout(() => {
+      setAnimationState("ticking");
+    }, 10000);
 
-      const lifeUsed = differenceInSeconds(currentDate, dateOfBirth);
-      const totalLife = differenceInSeconds(dateOfDeath, dateOfBirth);
-      const percentage = (lifeUsed / totalLife) * 100;
-      const remainingLife = 100 - percentage;
-      setLifeRemaining(remainingLife.toFixed(8));
-    }
+    return () => clearTimeout(timeout);
+  }, [setAnimationState]);
 
-    calculateAndsetLifeRemaining();
-
+  useEffect(() => {
     const interval = setInterval(() => {
-      calculateAndsetLifeRemaining();
+      if (animationState !== "ticking") return;
+      const remainingLife = calculateLifeRemaining(
+        props.dateOfBirth,
+        props.lifeExpectancy
+      );
+      setLifeRemaining(remainingLife);
     }, 1000);
 
     return () => clearInterval(interval);
-  }, [setLifeRemaining, props.dateOfBirth, props.lifeExpectancy]);
+  }, [
+    setLifeRemaining,
+    props.dateOfBirth,
+    props.lifeExpectancy,
+    animationState,
+  ]);
+
+  useEffect(() => {
+    const remainingLife = calculateLifeRemaining(
+      props.dateOfBirth,
+      props.lifeExpectancy
+    );
+
+    const difference = 100 - parseFloat(remainingLife);
+    const numberOfUpdates = 2000 / 16;
+    sizeOfUpdateRef.current = difference / numberOfUpdates;
+  }, [props.dateOfBirth, props.lifeExpectancy]);
+
+  useAnimationFrame(() => {
+    if (animationState === "ticking") return;
+
+    const sizeOfUpdate = sizeOfUpdateRef.current;
+
+    const expectedRemainingLife = calculateLifeRemaining(
+      props.dateOfBirth,
+      props.lifeExpectancy
+    );
+
+    setLifeRemaining((lifeRemaining) => {
+      const update = parseFloat(lifeRemaining) - sizeOfUpdate;
+      if (update > parseFloat(expectedRemainingLife)) return update.toFixed(8);
+      return expectedRemainingLife;
+    });
+  });
 
   return (
     <Container>
