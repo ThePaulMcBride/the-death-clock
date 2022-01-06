@@ -111,6 +111,12 @@ function classNames(...classes) {
   return classes.filter(Boolean).join(" ");
 }
 
+const currentDate = new Date();
+const maximumDate = {
+  year: currentDate.getFullYear(),
+  month: currentDate.getMonth() + 1,
+  day: currentDate.getDate(),
+};
 interface Props {
   lifeExpectancy: number;
   setLifeExpectancy: (value: number) => void;
@@ -160,6 +166,7 @@ export default function InputForm(props: Props) {
               ).toString()
             );
           }}
+          maximumDate={maximumDate}
         />
 
         <label>
