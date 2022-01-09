@@ -1,15 +1,9 @@
-import { useState } from "react";
 import Head from "next/head";
 import { useRouter } from "next/router";
 import dynamic from "next/dynamic";
 import styled from "styled-components";
 import styles from "../styles/Home.module.css";
 import YearGrid from "../components/YearGrid";
-import useLocalStorage from "@alexmarqs/react-use-local-storage";
-
-const InputForm = dynamic(() => import("../components/InputForm"), {
-  ssr: false,
-});
 
 const Main = styled.main`
   min-height: 100vh;
@@ -36,12 +30,10 @@ const initialDob = (() => {
 
 export default function Home() {
   const router = useRouter();
-  const [lifeExpectancy, setLifeExpectancy] = useState(
-    (router.query.life_expectancy as string) || initialLifeExpentancy
-  );
-  const [dateOfBirth, setDateOfBirth] = useState(
-    (router.query.dob as string) || initialDob
-  );
+  const lifeExpectancy =
+    (router.query.life_expectancy as string) || initialLifeExpentancy;
+
+  const dateOfBirth = (router.query.dob as string) || initialDob;
 
   return (
     <div className={styles.container}>
@@ -54,17 +46,15 @@ export default function Home() {
       <Main key="form">
         <Logo src="logo.svg" />
 
-        <InputForm
+        <YearGrid
           lifeExpectancy={parseInt(lifeExpectancy)}
-          setLifeExpectancy={setLifeExpectancy}
           dateOfBirth={dateOfBirth}
-          setDateOfBirth={setDateOfBirth}
-          viewGrid={() => {
+          editData={() =>
             router.push({
-              pathname: "/results",
+              pathname: "/",
               query: { life_expectancy: lifeExpectancy, dob: dateOfBirth },
-            });
-          }}
+            })
+          }
         />
       </Main>
 

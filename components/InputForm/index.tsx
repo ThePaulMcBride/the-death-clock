@@ -1,7 +1,5 @@
 import { Fragment, useState, useEffect } from "react";
 import styled from "styled-components";
-import "@amir04lm26/react-modern-calendar-date-picker/lib/DatePicker.css";
-import { Calendar } from "@amir04lm26/react-modern-calendar-date-picker";
 import { Listbox, Transition } from "@headlessui/react";
 import {
   CheckIcon,
@@ -23,6 +21,16 @@ const Container = styled.div`
 
   .selected {
     background-color: #ffe074;
+  }
+
+  .date-input {
+    background-color: #0f0f0f;
+    color: white;
+    border: 1px solid #0f0f0f;
+
+    &::-webkit-calendar-picker-indicator {
+      filter: invert(1);
+    }
   }
 
   .listbox-button {
@@ -121,27 +129,14 @@ const maximumDate = {
 };
 interface Props {
   lifeExpectancy: number;
-  setLifeExpectancy: (value: number) => void;
+  setLifeExpectancy: (value: string) => void;
   dateOfBirth: string;
   setDateOfBirth: (value: string) => void;
   viewGrid: () => void;
 }
 
 export default function InputForm(props: Props) {
-  const {
-    lifeExpectancy,
-    setLifeExpectancy,
-    dateOfBirth,
-    setDateOfBirth,
-    viewGrid,
-  } = props;
-
-  const parsedDateOfBirth = new Date(dateOfBirth);
-  const formtedDate = {
-    year: parsedDateOfBirth.getFullYear(),
-    month: parsedDateOfBirth.getMonth() + 1,
-    day: parsedDateOfBirth.getDate(),
-  };
+  const { setLifeExpectancy, dateOfBirth, setDateOfBirth, viewGrid } = props;
 
   const [selectedCountry, setSelectedCountry] = useLocalStorage(
     "country",
@@ -149,27 +144,22 @@ export default function InputForm(props: Props) {
   );
 
   useEffect(() => {
-    setLifeExpectancy(selectedCountry.lifeExpectancy);
+    setLifeExpectancy(`${selectedCountry.lifeExpectancy}`);
   }, [selectedCountry, setLifeExpectancy]);
 
   return (
     <Container>
       <InputGroup>
-        <label>
+        <label htmlFor="date-of-birth">
           <span>When were you born?</span>
         </label>
-        <Calendar
-          value={formtedDate}
-          onChange={(value) => {
-            setDateOfBirth(
-              new Date(
-                `${value.year}-${value.month.toString().padStart(2, "0")}-${
-                  value.day
-                }`
-              ).toString()
-            );
-          }}
-          maximumDate={maximumDate}
+        <input
+          id="date-of-birth"
+          type="date"
+          value={dateOfBirth}
+          max={new Date().toISOString().substring(0, 10)}
+          className="mb-6 date-input w-full rounded-md shadow-sm pl-3 pr-3 py-3 text-left cursor-default focus:outline-none focus:ring-1 focus:ring-yellow-500 focus:border-yellow-500 sm:text-sm"
+          onChange={(e) => setDateOfBirth(e.target.value)}
         />
 
         <label>
