@@ -49,7 +49,7 @@ interface Props {
   dateOfBirth: string;
 }
 
-function calculateLifeRemaining(
+export function calculateLifeRemaining(
   inputDateOfBirth: string,
   lifeExpectancy: number
 ) {
@@ -60,6 +60,8 @@ function calculateLifeRemaining(
   const lifeUsed = differenceInSeconds(currentDate, dateOfBirth);
   const totalLife = differenceInSeconds(dateOfDeath, dateOfBirth);
   const percentage = (lifeUsed / totalLife) * 100;
+  if (percentage > 100) return (0).toFixed(8);
+
   return (100 - percentage).toFixed(8);
 }
 
