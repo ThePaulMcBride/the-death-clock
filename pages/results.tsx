@@ -4,7 +4,7 @@ import styled from "styled-components";
 import styles from "../styles/Home.module.css";
 import YearGrid from "../components/YearGrid";
 import { calculateLifeRemaining } from "../components/CountDown";
-import { ShareIcon } from "@heroicons/react/solid";
+import { ShareIcon, CashIcon } from "@heroicons/react/solid";
 import { ToastContainer, toast } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
 
@@ -93,9 +93,7 @@ export default function Home() {
           draggable
           pauseOnHover
         />
-
         <Logo src="logo.svg" />
-
         <YearGrid
           lifeExpectancy={parseInt(lifeExpectancy)}
           dateOfBirth={dateOfBirth}
@@ -106,13 +104,25 @@ export default function Home() {
             })
           }
         />
-        <Button
-          className="inline-flex items-center px-4 py-3 border border-transparent text-lg leading-4 font-medium rounded-md shadow-sm focus:outline-none focus:ring-2 focus:ring-offset-2 text-black focus:ring-yellow-500 w-60 mt-8"
-          onClick={() => shareClicked()}
-        >
-          Share Result
-          <ShareIcon className="w-6" />
-        </Button>
+        <div className="flex flex-col md:flex-row md:space-x-5">
+          <Button
+            className="inline-flex items-center px-4 py-3 border border-transparent text-lg leading-4 font-medium rounded-md shadow-sm focus:outline-none focus:ring-2 focus:ring-offset-2 text-black focus:ring-yellow-500 w-60 mt-8"
+            onClick={() => shareClicked()}
+          >
+            Share Result
+            <ShareIcon className="w-6" />
+          </Button>
+          <Button
+            as="a"
+            className="inline-flex items-center px-4 py-3 border border-transparent text-lg leading-4 font-medium rounded-md shadow-sm focus:outline-none focus:ring-2 focus:ring-offset-2 text-black focus:ring-yellow-500 w-60 mt-8"
+            href="https://ko-fi.com/thepaulmcbride"
+            target="_blank"
+            nofollow={true}
+          >
+            Buy me a coffee
+            <CashIcon className="w-6" />
+          </Button>
+        </div>
       </Main>
 
       <footer className={styles.footer}>
