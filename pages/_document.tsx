@@ -1,5 +1,6 @@
 import Document, { Html, Head, Main, NextScript } from "next/document";
 import { ServerStyleSheet } from "styled-components";
+import Script from "next/script";
 
 export default class MyDocument extends Document {
   static async getInitialProps(ctx) {
@@ -37,6 +38,11 @@ export default class MyDocument extends Document {
             data-domain="thedeathclock.co"
             src="https://plausible.io/js/plausible.js"
           ></script>
+          <Script
+            async
+            src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-4137859431738623"
+            crossOrigin="anonymous"
+          />
           <link
             href="https://fonts.googleapis.com/css2?family=Roboto&family=Roboto+Condensed&display=optional"
             rel="stylesheet"
