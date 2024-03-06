@@ -71,7 +71,6 @@ export default function Home() {
       <footer className={styles.footer}>
         <a
           href="https://paulmcbride.com"
-          target="_blank"
         >
           <span>A stoic reminder by</span> Paul McBride
         </a>
