@@ -127,9 +127,8 @@ export default function Home() {
 
       <footer className={styles.footer}>
         <a
-          href="https://paulmcbride.net"
+          href="https://paulmcbride.com"
           target="_blank"
-          rel="noopener noreferrer"
         >
           <span>A stoic reminder by</span> Paul McBride
         </a>
