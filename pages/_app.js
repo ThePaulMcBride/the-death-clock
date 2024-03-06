@@ -9,7 +9,7 @@ function MyApp({ Component, pageProps }) {
         src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-4137859431738623"
         crossOrigin="anonymous"
       />
-      <Component {...pageProps} />;
+      <Component {...pageProps} />
     </>
   );
 }
