@@ -4,7 +4,6 @@ import styled from "styled-components";
 import styles from "../styles/Home.module.css";
 import YearGrid from "../components/YearGrid";
 import { calculateLifeRemaining } from "../components/CountDown";
-import { ShareIcon, CashIcon } from "@heroicons/react/solid";
 import { ToastContainer, toast } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
 
@@ -24,12 +23,6 @@ const Logo = styled.img`
   margin-bottom: 2rem;
   display: block;
   width: 330px;
-`;
-
-const Button = styled.button`
-  background-color: #ffe074;
-  display: flex;
-  justify-content: space-between;
 `;
 
 const initialLifeExpentancy = "80";
@@ -104,31 +97,29 @@ export default function Home() {
             })
           }
         />
-        <div className="flex flex-col md:flex-row md:space-x-5">
-          <Button
-            className="inline-flex items-center px-4 py-3 border border-transparent text-lg leading-4 font-medium rounded-md shadow-sm focus:outline-none focus:ring-2 focus:ring-offset-2 text-black focus:ring-yellow-500 w-60 mt-8"
-            onClick={() => shareClicked()}
+        <div className="flex flex-col md:space-x-5">
+          <a
+            className="text-center px-4 py-3 border border-transparent text-lg leading-4 font-medium rounded-md shadow-sm focus:outline-none focus:ring-2 focus:ring-offset-2 text-black focus:ring-yellow-500 w-60 mt-8 bg-[#ffe074]"
+            href="mailto:hello@paulmcbride.com?subject=Death%20Clock%20Advertising%20Enquiry"
+            target="_blank nofollow"
           >
-            Share Result
-            <ShareIcon className="w-6" />
-          </Button>
-          <Button
-            as="a"
-            className="inline-flex items-center px-4 py-3 border border-transparent text-lg leading-4 font-medium rounded-md shadow-sm focus:outline-none focus:ring-2 focus:ring-offset-2 text-black focus:ring-yellow-500 w-60 mt-8"
-            href="https://ko-fi.com/thepaulmcbride"
-            target="_blank"
-            nofollow={true}
-          >
-            Buy me a coffee
-            <CashIcon className="w-6" />
-          </Button>
+            Advertise here
+          </a>
+          <span className="text-sm mt-2">
+            Check out the{" "}
+            <a
+              href="https://plausible.io/thedeathclock.co"
+              className="underline"
+              target="_blank nofollow"
+            >
+              site analytics
+            </a>
+          </span>
         </div>
       </Main>
 
       <footer className={styles.footer}>
-        <a
-          href="https://paulmcbride.com"
-        >
+        <a href="https://paulmcbride.com">
           <span>A stoic reminder by</span> Paul McBride
         </a>
       </footer>
