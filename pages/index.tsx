@@ -4,8 +4,6 @@ import { useRouter } from "next/router";
 import dynamic from "next/dynamic";
 import styled from "styled-components";
 import styles from "../styles/Home.module.css";
-import YearGrid from "../components/YearGrid";
-import useLocalStorage from "@alexmarqs/react-use-local-storage";
 
 const InputForm = dynamic(() => import("../components/InputForm"), {
   ssr: false,
@@ -25,7 +23,7 @@ const Logo = styled.img`
   width: 330px;
 `;
 
-const initialLifeExpentancy = "80";
+const initialLifeExpectancy = "80";
 const initialDob = (() => {
   const currentDate = new Date();
   const currentYear = currentDate.getFullYear();
@@ -37,7 +35,7 @@ const initialDob = (() => {
 export default function Home() {
   const router = useRouter();
   const [lifeExpectancy, setLifeExpectancy] = useState(
-    (router.query.life_expectancy as string) || initialLifeExpentancy
+    (router.query.life_expectancy as string) || initialLifeExpectancy
   );
   const [dateOfBirth, setDateOfBirth] = useState(
     (router.query.dob as string) || initialDob
@@ -69,9 +67,7 @@ export default function Home() {
       </Main>
 
       <footer className={styles.footer}>
-        <a
-          href="https://paulmcbride.com"
-        >
+        <a href="https://paulmcbride.com">
           <span>A stoic reminder by</span> Paul McBride
         </a>
       </footer>

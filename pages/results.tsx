@@ -25,7 +25,7 @@ const Logo = styled.img`
   width: 330px;
 `;
 
-const initialLifeExpentancy = "80";
+const initialLifeExpectancy = "80";
 const initialDob = (() => {
   const currentDate = new Date();
   const currentYear = currentDate.getFullYear();
@@ -37,35 +37,9 @@ const initialDob = (() => {
 export default function Home() {
   const router = useRouter();
   const lifeExpectancy =
-    (router.query.life_expectancy as string) || initialLifeExpentancy;
+    (router.query.life_expectancy as string) || initialLifeExpectancy;
 
   const dateOfBirth = (router.query.dob as string) || initialDob;
-
-  function shareClicked() {
-    const lifeRemaining = calculateLifeRemaining(
-      dateOfBirth,
-      parseInt(lifeExpectancy)
-    );
-
-    const emojisRemaining = 25 - Math.round(parseFloat(lifeRemaining) / 4);
-
-    let output = "";
-
-    for (let i = 0; i < 25; i++) {
-      output += emojisRemaining <= i ? "⚪️" : "🔘";
-      if (i % 5 === 4) {
-        output += "\n";
-      }
-    }
-
-    output += "\n";
-    output += `I have ${lifeRemaining}% left`;
-    output += "\n";
-    output += "https://thedeathclock.co";
-
-    navigator.clipboard.writeText(output);
-    toast("Copied to clipboard");
-  }
 
   return (
     <div className={styles.container}>
@@ -98,22 +72,19 @@ export default function Home() {
           }
         />
         <div className="flex flex-col md:space-x-5">
-          <a
-            className="text-center px-4 py-3 border border-transparent text-lg leading-4 font-medium rounded-md shadow-sm focus:outline-none focus:ring-2 focus:ring-offset-2 text-black focus:ring-yellow-500 w-60 mt-8 bg-[#ffe074]"
-            href="mailto:hello@paulmcbride.com?subject=Death%20Clock%20Advertising%20Enquiry"
-            target="_blank nofollow"
-          >
-            Advertise here
-          </a>
-          <span className="text-sm mt-2">
-            Check out the{" "}
+          <span className="text-sm mt-2 max-w-md bg-gray-900 p-4 rounded">
+            If you would like to sponsor or advertise on this site, please email
+            me at hello@paulmcbride.com. The site typically receives 50,000+
+            unique visitors per month. You can see all of the traffic data on
+            the{" "}
             <a
               href="https://plausible.io/thedeathclock.co"
-              className="underline"
+              className="underline text-[#ffe074]"
               target="_blank nofollow"
             >
               site analytics
             </a>
+            .
           </span>
         </div>
       </Main>
