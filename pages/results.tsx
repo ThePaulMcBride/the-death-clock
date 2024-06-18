@@ -3,8 +3,7 @@ import { useRouter } from "next/router";
 import styled from "styled-components";
 import styles from "../styles/Home.module.css";
 import YearGrid from "../components/YearGrid";
-import { calculateLifeRemaining } from "../components/CountDown";
-import { ToastContainer, toast } from "react-toastify";
+import { ToastContainer } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
 
 const Main = styled.main`
