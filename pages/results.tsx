@@ -70,22 +70,6 @@ export default function Home() {
             })
           }
         />
-        <div className="flex flex-col md:space-x-5">
-          <span className="text-sm mt-2 max-w-md bg-gray-900 p-4 rounded">
-            If you would like to sponsor or advertise on this site, please email
-            me at hello@paulmcbride.com. The site typically receives 50,000+
-            unique visitors per month. You can see all of the traffic data on
-            the{" "}
-            <a
-              href="https://plausible.io/thedeathclock.co"
-              className="underline text-[#ffe074]"
-              target="_blank nofollow"
-            >
-              site analytics
-            </a>
-            .
-          </span>
-        </div>
       </Main>
 
       <footer className={styles.footer}>
